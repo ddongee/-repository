@@ -1,7 +1,9 @@
-FROM node:18
-WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm install
+FROM python:3.11-slim
+
+WORKDIR /app
+
 COPY . .
-EXPOSE 8080
-CMD [ "node", "index.js" ]
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "main:app"]
